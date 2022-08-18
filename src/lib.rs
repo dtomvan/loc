@@ -1,6 +1,3 @@
-extern crate memchr;
-extern crate smallvec;
-
 use std::path::Path;
 use std::fs::File;
 use std::cmp::{max, min};

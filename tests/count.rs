@@ -1,5 +1,3 @@
-extern crate loc;
-
 use loc::*;
 
 // Because I can.  Seems bad though. Need a test runner with better output, or neeed to learn

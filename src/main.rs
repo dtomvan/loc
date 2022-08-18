@@ -1,14 +1,4 @@
-extern crate loc;
-
-#[macro_use]
-extern crate clap;
-extern crate deque;
-extern crate num_cpus;
-extern crate regex;
-extern crate ignore;
-extern crate edit_distance;
-
-use clap::{Arg, App, AppSettings};
+use clap::{Arg, App, AppSettings, crate_version};
 use ignore::WalkBuilder;
 
 use std::collections::HashMap;
