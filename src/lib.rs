@@ -11,7 +11,7 @@ use memchr::memchr;
 use smallvec::*;
 
 // Why is it called partialEq?
-#[derive(Debug, PartialEq, Default, Clone)]
+#[derive(Debug, PartialEq, Eq, Default, Clone)]
 pub struct Count {
     pub code:    u32,
     pub comment: u32,
@@ -457,7 +457,8 @@ pub fn lang_from_ext(filepath: &str) -> Lang {
     }
 }
 
-pub fn counter_config_for_lang<'a>(lang: Lang) -> (SmallVec<[&'a str; 3]>, SmallVec<[(&'a str, &'a str); 3]>) {
+type TripleStr<'a, T = &'a str> = SmallVec<[T; 3]>;
+pub fn counter_config_for_lang<'a>(lang: Lang) -> (TripleStr<'a>, TripleStr<'a, (&'a str, &'a str)>) {
     let c_style      = (smallvec!["//"], smallvec![("/*", "*/")]);
     let html_style   = (smallvec![],     smallvec![("<!--", "-->")]);
     let ml_style     = (smallvec![],     smallvec![("(*", "*)")]);
@@ -690,6 +691,7 @@ pub fn count(filepath: &str) -> Count {
                 }
 
                 if !multi_stack.is_empty() {
+                    #[allow(unused_mut)]
                     let (_, mut end) = multi_stack.last().expect("stack last");
                     if pos+end.len() <= line_len && &line[pos..pos+end.len()] == end {
                         let _ = multi_stack.pop();
@@ -731,13 +733,10 @@ fn check_shebang(path: &Path) -> Option<String> {
         Err(_) => return None,
     };
 
-    let first_line = s.lines().next();
-    if first_line.is_none() {
-        return None;
-    }
+    let first_line = s.lines().next()?;
 
     // credit to polyglot (ats line counter) for these shebangs
-    let ext = match first_line.expect("it's some, i'm sure of it") {
+    let ext = match first_line {
         "#!python"
       | "#!python2"
       | "#!python3"
