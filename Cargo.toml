@@ -27,7 +27,7 @@ optional = true
 
 [features]
 default = ["build-binary"]
-build-binary = ["clap"]
+build-binary = ["clap", "deque", "regex", "num_cpus", "ignore", "edit-distance"]
 
 [profile.release]
 incremental = false
