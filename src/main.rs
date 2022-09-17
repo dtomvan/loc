@@ -127,7 +127,7 @@ fn main() {
              .required(false)
              .multiple(true)
              .long("unrestricted")
-             .short("u")
+             .short('u')
              .takes_value(false)
              .help("A single -u won't respect .gitignore (etc.) files. Two -u flags will additionally count hidden files and directories."))
         .arg(Arg::with_name("target")

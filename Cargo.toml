@@ -1,6 +1,6 @@
 [package]
 name = "loc"
-version = "0.5.0"
+version = "0.6.0"
 description = "Count lines of code (cloc) fast."
 authors = ["Curtis Gagliardi <curtis@curtis.io>"]
 
@@ -12,15 +12,27 @@ license = "MIT"
 edition = "2021"
 
 [dependencies]
-clap = "2.34.0"
-deque = "0.3.2"
+deque = { version = "0.3.2", optional = true }
 memchr = "2.4.1"
-regex = "1.5.4"
-num_cpus = "1.13.1"
-ignore = "0.4.18"
-edit-distance = "2.1.0"
+regex = { version = "1.5.4", optional = true }
+num_cpus = { version = "1.13.1", optional = true }
+ignore = { version = "0.4.18", optional = true }
+edit-distance = { version = "2.1.0", optional = true }
 smallvec = "1.8.0"
+
+[dependencies.clap]
+version = "3.2"
+features = ["cargo"]
+optional = true
+
+[features]
+default = ["build-binary"]
+build-binary = ["clap"]
 
 [profile.release]
 incremental = false
 lto = true
+
+[[bin]]
+name = "loc"
+required-features = ["build-binary"]
